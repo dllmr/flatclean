@@ -85,7 +85,10 @@ def main() -> None:
     if response == "y":
         for path, _ in orphaned:
             print(f"Removing {path.name}...")
-            shutil.rmtree(path)
+            if path.is_symlink():
+                path.unlink()
+            else:
+                shutil.rmtree(path)
         print("Done")
     else:
         print("No changes made")
